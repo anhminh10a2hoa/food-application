@@ -1,18 +1,19 @@
 package main
 
-import(
-	"os"
-	"github.com/gin-gonic/gin"
+import (
 	"golang-food-application/database"
-	"golang-food-application/routes"
 	"golang-food-application/middleware"
+	"golang-food-application/routes"
+	"os"
+
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var foodCollection = *mongo.Collection = database.OpenCollection(database.Client, "food")
+var foodCollection *mongo.Collection = database.OpenCollection(database.Client, "food")
 
 func main() {
-	port:= os.Getenv("PORT")
+	port := os.Getenv("PORT")
 
 	if port == "" {
 		port = "8080"
