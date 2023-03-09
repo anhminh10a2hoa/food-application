@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var userCollection *mongo.Collection = database.OpenCollection(database.Client, "user")
@@ -86,7 +87,12 @@ func Login() gin.HandlerFunc {
 }
 
 func HashPassword(password string) string {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	if err != nil {
+		log.Panic(err)
+	}
 
+	return string(bytes)
 }
 
 func VerifyPassword(userPassword string, povidePassword string) (bool, string) {
