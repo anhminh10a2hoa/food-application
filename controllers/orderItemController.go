@@ -87,7 +87,6 @@ func ItemsByOrder(id string) (OrderItems []primitive.M, err error) {
 
 	projectStage2 := bson.D{
 		{Key: "$project", Value: bson.D{
-
 			{Key: "id", Value: 0},
 			{Key: "payment_due", Value: 1},
 			{Key: "total_count", Value: 1},
@@ -105,7 +104,8 @@ func ItemsByOrder(id string) (OrderItems []primitive.M, err error) {
 		unwindTableStage,
 		projectStage,
 		groupStage,
-		projectStage2})
+		projectStage2,
+	})
 
 	if err != nil {
 		panic(err)
