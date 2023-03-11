@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"golang-food-application/database"
 	"log"
-	"os"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -25,7 +24,7 @@ type SignedDetails struct {
 
 var userCollection *mongo.Collection = database.OpenCollection(database.Client, "user")
 
-var SECRET_KEY string = os.Getenv("SECRET_KEY")
+var SECRET_KEY string = "yRi55iDq9J"
 
 func GenerateAllTokens(email string, firstName string, lastName string, uid string) (signedToken string, signedRefreshToken string, err error) {
 	claims := &SignedDetails{
@@ -57,9 +56,7 @@ func GenerateAllTokens(email string, firstName string, lastName string, uid stri
 }
 
 func UpdateAllTokens(signedToken string, signedRefreshToken string, userId string) {
-
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-
 	var updateObj primitive.D
 
 	updateObj = append(updateObj, bson.E{"token", signedToken})
@@ -93,7 +90,6 @@ func UpdateAllTokens(signedToken string, signedRefreshToken string, userId strin
 }
 
 func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
-
 	token, err := jwt.ParseWithClaims(
 		signedToken,
 		&SignedDetails{},
@@ -119,5 +115,4 @@ func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
 	}
 
 	return claims, msg
-
 }

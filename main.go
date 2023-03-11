@@ -14,7 +14,6 @@ var foodCollection *mongo.Collection = database.OpenCollection(database.Client, 
 
 func main() {
 	port := os.Getenv("PORT")
-
 	if port == "" {
 		port = "8080"
 	}
